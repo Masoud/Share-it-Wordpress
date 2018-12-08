@@ -16,15 +16,22 @@ define('sharei-wp_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('sharei-wp_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
-function sharei_wp_register_settings() {
-    add_option( 'sharei_wp_option_name', '');
-    register_setting( 'sharei_wp_options_group', 'sharei_wp_option_name', 'sharei_wp_callback' );
- }
- add_action( 'admin_init', 'sharei_wp_register_settings' );
+ add_action( 'admin_init', 'sharei_wp_settings_username' );
  function sharei_wp_register_options_page() {
     add_options_page('تنظیمات افزونه Share it Wordpress', 'Share it Wordpress', 'manage_options', 'share-it-wordpress', 'sharei_wp_options_page');
   }
   add_action('admin_menu', 'sharei_wp_register_options_page');
+
+
+  function sharei_wp_settings_token() {
+    add_option( 'sharei_wp_option_token', '');
+    register_setting( 'sharei_wp_options_group','sharei_wp_option_token', 'sharei_wp_callback' );
+ }
+ add_action( 'admin_init', 'sharei_wp_settings_token' );
+ function sharei_wp_settings_username() {
+    add_option( 'sharei_wp_option_username', '');
+    register_setting( 'sharei_wp_options_group','sharei_wp_option_username', 'sharei_wp_callback' );
+ }
 ?>
 <?php
     function sharei_wp_options_page()
@@ -38,8 +45,12 @@ function sharei_wp_register_settings() {
   <p>شما در اینجا میتونید تنظیمات توکن تلگرام و فلان و این چیزا را انجام دهید</p>
   <table>
   <tr valign="top">
-  <th scope="row"><label for="sharei_wp_option_name">توکن</label></th>
-  <td><input type="text" id="sharei_wp_option_name" name="sharei_wp_option_name" value="<?php echo get_option('sharei_wp_option_name'); ?>" /></td>
+  <th scope="row"><label for="sharei_wp_option_token">توکن</label></th>
+  <td><input type="text" id="sharei_wp_option_token" name="sharei_wp_option_token" value="<?php echo get_option('sharei_wp_option_token'); ?>" /></td>
+  </tr>
+  <tr valign="top">
+  <th scope="row"><label for="sharei_wp_option_username">یوزرنیم</label></th>
+  <td><input type="text" id="sharei_wp_option_username" name="sharei_wp_option_username" value="<?php echo get_option('sharei_wp_option_username'); ?>" /></td>
   </tr>
   </table>
   <?php  submit_button(); ?>
