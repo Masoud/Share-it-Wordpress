@@ -58,31 +58,19 @@ define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
   </div>
 <?php
 } 
-// function add_sticky_column($columns) {
-//   return array_merge( $columns, 
-//             array('sticky' => __('Salam')) );
-// }
-// add_filter('manage_posts_columns' , 'add_sticky_column');
-// add_filter('manage_posts_columns', 'my_columns');
-// function my_columns($columns) {
-//     $columns['views'] = 'Views';
-//     return $columns;
-// }
-function ST4_columns_head($defaults) {
+function salam($post_ID){
+  return 'hi '.$post_ID.' joon';
+}
+
+function sharei_wp_columns_head($defaults) {
   $defaults['first_column']  = 'Share it Wordpress';
   return $defaults;
 }
-
-function salam($post_ID){
-  return 'hi'.$post_ID.'joon';
-}
-
-function ST4_columns_content($column_name, $post_ID) {
+function sharei_wp_columns_content($column_name, $post_ID) {
   if ($column_name == 'first_column') {
-      // echo 'The post ID is: ' . $post_ID;
-      echo '<a href="'.salam($post_ID).'">click here</a>';
+      echo '<center><a href="'.salam($post_ID).'">click here</a></center>';
   }
 }
 
-add_filter('manage_posts_columns', 'ST4_columns_head');
-add_filter('manage_posts_custom_column', 'ST4_columns_content', 10, 2);
+add_filter('manage_posts_columns', 'sharei_wp_columns_head');
+add_filter('manage_posts_custom_column', 'sharei_wp_columns_content', 10, 2);
