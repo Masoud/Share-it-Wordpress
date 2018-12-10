@@ -57,4 +57,14 @@ define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
   </form>
   </div>
 <?php
-} ?>
+} 
+// function add_sticky_column($columns) {
+//   return array_merge( $columns, 
+//             array('sticky' => __('Salam')) );
+// }
+// add_filter('manage_posts_columns' , 'add_sticky_column');
+add_filter('manage_posts_columns', 'my_columns');
+function my_columns($columns) {
+    $columns['views'] = 'Views';
+    return $columns;
+}
