@@ -1,0 +1,17 @@
+{
+    "name": "Masoud/share-it-wordpress",
+    "description": "Share it Worpdress",
+    "type": "project",
+    "homepage": "https://github.com/Masoud/Share-it-Wordpress",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Masoud",
+            "email": "masoudnikoomanesh@gmail.com"
+        }
+    ],
+    "require": {
+        "mashape/unirest-php": "^3.0"
+    }
+}

@@ -58,13 +58,14 @@ define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
   </div>
 <?php
 } 
+
 function salam($post_ID){
-  $title=get_the_title($post_ID);
+  $title = get_the_title($post_ID);
   $content_post = get_post($post_ID);
   $content = $content_post->post_content;
   $content = apply_filters('the_content', $content);
   $content = str_replace(']]>', ']]&gt;', $content);
-  $href=get_permalink($post_ID);
+  $href = get_permalink($post_ID);
   return $href;
 }
 
