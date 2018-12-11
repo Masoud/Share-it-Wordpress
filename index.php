@@ -10,6 +10,12 @@ Author URI:   https://hipdesign.ir
 
 */
 
+// Error Logs
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// Load Libraries
+require_once 'vendor/autoload.php';
+
 define('sharei-wp', '0.1');
 
 define('sharei-wp_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -58,6 +64,8 @@ define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
   </div>
 <?php
 } 
+$botToken = '707484338:AAG65u_DtSA4Liv6lGep6WlsOhCkX6tWdf8';
+$headers = ['Accept' => 'application/json'];
 
 function salam($post_ID){
   $title = get_the_title($post_ID);
@@ -66,7 +74,13 @@ function salam($post_ID){
   $content = apply_filters('the_content', $content);
   $content = str_replace(']]>', ']]&gt;', $content);
   $href = get_permalink($post_ID);
-  return $href;
+  // return $href;
+  $text = [
+    'chat_id' => 74415978,
+    'text' => $post_ID,
+    'parse_mode' => 'html',
+  ];
+  Unirest\Request::post('https://api.telegram.org/bot' . $GLOBALS['botToken'] . '/sendMessage', $GLOBALS['headers'], $text);
 }
 
 function sharei_wp_columns_head($defaults) {
@@ -75,9 +89,40 @@ function sharei_wp_columns_head($defaults) {
 }
 function sharei_wp_columns_content($column_name, $post_ID) {
   if ($column_name == 'first_column') {
-      echo '<center><a href="'.salam($post_ID).'">click here</a></center>';
+    echo '<button wpfc-clear-column="'.$post_ID.'" class="button wpfc-clear-column-action">
+    <span>Clear</span>
+</button>';
   }
 }
 
-add_filter('manage_posts_columns', 'sharei_wp_columns_head');
-add_filter('manage_posts_custom_column', 'sharei_wp_columns_content', 10, 2);
+add_action('manage_posts_columns', 'sharei_wp_columns_head');
+add_action('manage_posts_custom_column', 'sharei_wp_columns_content', 10, 2);
+
+?>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+
+<script>
+jQuery(document).ready(function(){
+        jQuery("button.button.wpfc-clear-column-action:visible").click(function(e){
+            console.log('hi');
+            // jQuery(e.currentTarget).attr("disabled", true);
+
+            // jQuery.ajax({
+            //     type: 'GET',
+            //     url: ajaxurl,
+            //     data : {"action": "wpfc_clear_cache_column", "id" : jQuery(e.currentTarget).attr("wpfc-clear-column")},
+            //     dataType : "json",
+            //     cache: false, 
+            //     success: function(data){
+            //         if(typeof data.success != "undefined" && data.success == true){
+            //             jQuery(e.currentTarget).attr("disabled", false);
+            //         }else{
+            //             alert("Clear Cache Error");
+            //         }
+            //     }
+            // });
+
+            // return false;
+        });
+	});
+  </script>
