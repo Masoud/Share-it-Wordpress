@@ -97,32 +97,23 @@ function sharei_wp_columns_content($column_name, $post_ID) {
 
 add_action('manage_posts_columns', 'sharei_wp_columns_head');
 add_action('manage_posts_custom_column', 'sharei_wp_columns_content', 10, 2);
-
+if( isset($_POST['id']) ){
+  salam($_POST['id']);
+ }
 ?>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
 
 <script>
 jQuery(document).ready(function(){
         jQuery("button.button.wpfc-clear-column-action:visible").click(function(e){
-            console.log('hi');
-            // jQuery(e.currentTarget).attr("disabled", true);
-
-            // jQuery.ajax({
-            //     type: 'GET',
-            //     url: ajaxurl,
-            //     data : {"action": "wpfc_clear_cache_column", "id" : jQuery(e.currentTarget).attr("wpfc-clear-column")},
-            //     dataType : "json",
-            //     cache: false, 
-            //     success: function(data){
-            //         if(typeof data.success != "undefined" && data.success == true){
-            //             jQuery(e.currentTarget).attr("disabled", false);
-            //         }else{
-            //             alert("Clear Cache Error");
-            //         }
-            //     }
-            // });
-
-            // return false;
+          console.log('hi');
+          $.ajax({
+            type: 'post',
+      data: {id: jQuery(e.currentTarget).attr("wpfc-clear-column")},
+      success: function(response){
+       $('#response').text('name : ' + response);
+      }
+});
+});
         });
-	});
   </script>
