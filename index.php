@@ -78,26 +78,27 @@
     function salam($post_ID){
       // print_r('hi');die();
 
-      // $title = get_the_title($post_ID);
+      $title = get_the_title($post_ID);
       $content_post = get_post($post_ID);
       $content = $content_post->post_content;
-      // $content = apply_filters('the_content', $content);
+      $content = apply_filters('the_content', $content);
       // $content = str_replace(']]>', ']]&gt;', $content);
       // $content = substr( $content, (strpos( $content, '</p>')));
-      $content = apply_filters( 'the_content', get_the_content() );
+      // $content = apply_filters( 'the_content', get_the_content() );
       $text1 = substr( $content, 0, strpos( $content, '</p>' ) + 4 );
       $text1=str_replace('<p>','',$text1);
       $text1=str_replace('</p>','',$text1);
       // return $text1;
       // return $content;
-      // $href = get_permalink($post_ID);
-      // // return $href;
-      // $whatToSay='موضوع: '.$title.'
-      // لینک: '.$href.'
-      // ';
+      $href = get_permalink($post_ID);
+      // return $href;
+      $whatToSay='موضوع: '.$title.'
+      متن: '.$text1.'
+      لینک: '.$href.'
+      ';
       $text = [
         'chat_id' => 74415978,
-        'text' => $text1,
+        'text' => $whatToSay,
         'parse_mode' => 'html',
       ];
       Unirest\Request::post('https://api.telegram.org/bot' . $GLOBALS['botToken'] . '/sendMessage', $GLOBALS['headers'], $text);
@@ -109,10 +110,10 @@
     }
     function sharei_wp_columns_content($column_name, $post_ID) {
       if ($column_name == 'first_column') {
-    //     echo '<button wpfc-clear-column="'.$post_ID.'" class="button wpfc-clear-column-action">
-    //     <span>Clear</span>
-    // </button>';
-    echo '<a href="'.salam($post_ID).'">click</a>';
+        echo '<button wpfc-clear-column="'.$post_ID.'" class="button wpfc-clear-column-action">
+        <span>Clear</span>
+    </button>';
+    // echo '<a href="'.salam($post_ID).'">click</a>';
       }
     }
 
