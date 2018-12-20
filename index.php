@@ -22,31 +22,46 @@
     define('sharei-wp_PLUGIN_PATH', plugin_dir_path(__FILE__));
     define('sharei-wp_PLUGIN_BASENAME', plugin_basename(__FILE__));
 
+    // Admin Menu Text
     function sharei_wp_register_options_page() {
         add_options_page('تنظیمات افزونه Share it Wordpress', 'Share it Wordpress', 'manage_options', 'share-it-wordpress', 'sharei_wp_options_page');
       }
-      add_action('admin_menu', 'sharei_wp_register_options_page');
-      include( plugin_dir_path( __FILE__ ) . 'options.php');
+    add_action('admin_menu', 'sharei_wp_register_options_page');
+
+    // Options for Admin page
+    include( plugin_dir_path( __FILE__ ) . 'options.php');
+
     $botToken = '707484338:AAG65u_DtSA4Liv6lGep6WlsOhCkX6tWdf8';
     $headers = ['Accept' => 'application/json'];
-    function salam($post_ID){
+
+    function SendPost($post_ID){
+
+      // Information of Post
       $title = get_the_title($post_ID);
       $content_post = get_post($post_ID);
       $content = $content_post->post_content;
       $content = apply_filters('the_content', $content);
-      $text1 = substr( $content, 0, strpos( $content, '</p>' ) + 4 );
-      $text1=str_replace('<p>','',$text1);
-      $text1=str_replace('</p>','',$text1);
+      $first_paragraph = substr( $content, 0, strpos( $content, '</p>' ) + 4 );
+      $first_paragraph=str_replace('<p>','',$first_paragraph);
+      $first_paragraph=str_replace('</p>','',$first_paragraph);
       $href = get_permalink($post_ID);
+
+      // Message to Send
       $whatToSay='موضوع: '.$title.'
-      متن: '.$text1.'
+      متن: '.$first_paragraph.'
       لینک: '.$href.'
       ';
+
+      // Array for Telegram
       $text = [
         'chat_id' => 74415978,
         'text' => $whatToSay,
         'parse_mode' => 'html',
       ];
+
+      // Send Request to Telegram
       Unirest\Request::post('https://api.telegram.org/bot' . $GLOBALS['botToken'] . '/sendMessage', $GLOBALS['headers'], $text);
     }
+
+    // Add Column for Plugin in pages
     include( plugin_dir_path( __FILE__ ) . 'columns.php');
