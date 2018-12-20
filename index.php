@@ -31,7 +31,7 @@
     // Options for Admin page
     include( plugin_dir_path( __FILE__ ) . 'options.php');
 
-    $botToken = '707484338:AAG65u_DtSA4Liv6lGep6WlsOhCkX6tWdf8';
+    $botToken = get_option('sharei_wp_option_token');
     $headers = ['Accept' => 'application/json'];
 
     function SendPost($post_ID){
